@@ -1,0 +1,113 @@
+CDP API details:
+
+ a) url base name : cdp_api
+ b) Endpoints details :	
+ 
+	1) Entity List :  /cdp_api/en_list?etype=dl
+	2) Entity Describe :  /cdp_api/en_describe?etype=dl&ename=demo-us-cdp-dl
+	3) Entity Status :  /cdp_api/en_status?etype=dl&ename=demo-us-cdp-dl
+	4) DL Start : /cdp_api/dl_start?ename=demo-us-cdp-dl"
+    5) DL Stop : /cdp_api/dl_stop?ename=demo-us-cdp-dl"
+    
+   
+   
+Locations details  :--
+
+1) API Server : --  10.10.29.51 (centos)
+2) Bash CLI Project location : /home/centos/project/cli/iqvia/bash_cli
+3) CLI for Python Project location   : /home/centos/project/cli/iqvia/python_cli
+4) CDP CLI lcoation   :  /home/centos/cdpclienv
+4) Flask virtual env location   :  /home/centos/flaskcdp
+5) Flask project location     :  /home/centos/flaskcdp/project
+6) Flask main program          : cdp_api.py
+
+
+Steps :--
+
+1) Start/Activate Flask Virtual Env :  
+source /home/centos/flaskcdp/bin/activate
+2) Check CDP and Flask 
+
+flask -version :
+Python 3.6.8
+Flask 1.1.2
+Werkzeug 1.0.1
+
+cdp --version
+0.9.9
+
+3) Set Flask Env variables :
+
+export FLASK_APP=cdp_api
+export FLASK_APP=/home/centos/flaskcdp/project/cdp_api.py
+export FLASK_ENV=development ( enable debug session )
+
+4) Execute Flask App :
+
+flask run
+flask run --host=0.0.0.0 ( expose API url to external world )
+
+flask run --host=35.171.158.51
+
+5) Test API endpoints examples :--  (*Refer sample scenarion section for getting CDP details)
+
+  1) Entity List :  /cdp_api/en_list?etype=<entity_type> 
+     <entity_type> = {environment/env , datalake/dl , datahub/dh ,ml, datawarehouse/dwh} 
+     
+	  for ex :-  curl -i "http://localhost:5000/cdp_api/en_list?etype=dl"
+	   
+	2) Entity Describe :  /cdp_api/en_describe?etype=<entity_type>&ename=<entity_instance_name>
+	  <entity_type> = {environment/env , datalake/dl , datahub/dh ,ml, datawarehouse/dwh} 
+	  <entity_instance_name> = specific instance of entity_type
+
+       for ex : -  curl -i "http://localhost:5000/cdp_api/en_describe?etype=env&ename=demo-us-cdp"	  
+	              curl -i "http://localhost:5000/cdp_api/en_describe?etype=dl&ename=demo-us-cdp-dl"
+                  curl -i "http://localhost:5000/cdp_api/en_describe?etype=dh&ename=demo-us-cdp-de"				  
+	
+	3) Entity Status :  /cdp_api/en_status?etype=<entity_type>&ename=<entity_instance_name>
+	  <entity_type> = {environment/env , datalake/dl , datahub/dh ,ml, datawarehouse/dwh} 
+	  <entity_instance_name> = specific instance of entity_type
+
+	     for ex : -  curl -i "http://localhost:5000/cdp_api/en_status?etype=env&ename=demo-us-cdp"	  
+	              curl -i "http://localhost:5000/cdp_api/en_status?etype=dl&ename=demo-us-cdp-dl"
+                  curl -i "http://localhost:5000/cdp_api/en_status?etype=dh&ename=demo-us-cdp-de"	
+	
+	4) DL Start : /cdp_api/dl_start?ename=<entity_instance_name>
+	<entity_instance_name> = specific instance of entity_type
+    
+     for ex : curl -i "http://localhost:5000/cdp_api/dl_start?ename=demo-us-cdp-dl"	
+
+   5) DL Stop : /cdp_api/dl_stop?ename=<entity_instance_name>
+      <entity_instance_name> = specific instance of entity_type
+    
+     for ex : curl -i "http://localhost:5000/cdp_api/dl_stop?ename=demo-us-cdp-dl"	
+
+   4) DH Start : /cdp_api/dh_start?ename=<entity_instance_name>
+	<entity_instance_name> = specific instance of entity_type
+    
+     for ex : curl -i "http://localhost:5000/cdp_api/dh_start?ename=demo-us-cdp-dl"	
+
+   6) DH Stop : /cdp_api/dh_stop?ename=<entity_instance_name>
+      <entity_instance_name> = specific instance of entity_type
+    
+     for ex : curl -i "http://localhost:5000/cdp_api/dh_stop?ename=demo-us-cdp-de"	
+
+Sample CDP Sceario :
+
+1) Env 			:  demo-us-cdp
+2) Data lake 	: demo-us-cdp-dl 
+3) Datahub      : demo-us-cdp-de
+4) ML           : Environment/Workspaces/"Workspaces CRN"/"Workspaces instance status"/"Workspaces kubernetes cluster" 
+                 demo-us-cdp/Demo_mark/crn:cdp:ml:us-west-1:d49e8438-7037-4f8a-8357-20d369ab31da:workspace:70e5a318-bc31-4b40-b5c2-97441704054f/deprovision:failed/liftie-j5rchb8r
+
+sh cdp_entity_list.sh env/dl/dh
+
+2) Deployment Options :-
+  a) Hosted option in AWS :
+  b) self hosted option :-  Gunicorn, *Proxy setups
+  
+3) Security :--
+  
+
+
+	
