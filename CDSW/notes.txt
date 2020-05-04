@@ -1,0 +1,10 @@
+
+ssh to the CDSW master node and see if you can access the engine POD as the root user.
+kubectl exec -it <engine session id> -n `kubectl get pods --all-namespaces | grep <engine session id> | awk '{print $1}'` -- /bin/bash
+
+kubectl exec -it vy8hyscmo85ttx1c --namespace=default-user-1 -- /bin/bash
+
+[root@ca2u2003hw01p ~]# kubectl exec -it rpz4r8zcw9jv91xm -n `kubectl get pods --all-namespaces | grep rpz4r8zcw9jv91xm | awk '{print $1}'` -- /bin/bash
+Defaulting container name to engine.
+Use 'kubectl describe pod/rpz4r8zcw9jv91xm -n default-user-2' to see all of the containers in this pod.
+cdsw@rpz4r8zcw9jv91xm:~$

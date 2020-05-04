@@ -1,0 +1,59 @@
+1) comment out line in /etc/modprobe.d/disableIPv6.conf
+
+
+1) Delete or comment the /etc/sysctl.d/99-sysctl.conf  file which contains the following entry
+
+# To disable for all interfaces 
+net.ipv6.conf.all.disable_ipv6 = 1 
+# the protocol can be disabled for specific interfaces as well. 
+net.ipv6.conf.<interface>.disable_ipv6 = 1
+
+2) Check the contents of the /etc/ssh/sshd_config file and make sure the AddressFamily line is commented out.
+
+#AddressFamily inet
+
+3) Make sure the following line exists in /etc/hosts, and is not commented out
+
+::1 localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+4) Enable IPv6 support on the ethernet interface. 
+
+Double check 	 and /etc/sysconfig/network-scripts/ifcfg-* to ensure 
+
+you've set IPV6INIT=yes. 
+
+This setting is required for IPv6 static and DHCP assignment of IPv6 addresses.
+
+5)cat /proc/sys/net/ipv6/conf/all/disable_ipv6 from 1 to 0
+
+--------------
+ lsmod | grep ipv6
+ ip a | grep -i inet
+sysctl -a | grep  net.ipv6.conf.all.disable_ipv6
+
+ntpq -pn
+
+
+
+=========================
+
+
+
+1) change the value of "options ipv6 disable" from 1 to 0 in /etc/modprobe.d/disableIPv6.conf.
+
+Then after reboot, confirm by :--
+
+
+1) Kernel modules for ipv6 :
+
+[root@cdts1001hw02p modprobe.d]# lsmod | grep -i ipv6
+nf_conntrack_ipv6      18935  1
+nf_defrag_ipv6         35104  2 openvswitch,nf_conntrack_ipv6
+nf_nat_ipv6            14131  2 openvswitch,ip6table_nat
+nf_nat                 26583  5 openvswitch,nf_nat_ipv4,nf_nat_ipv6,xt_nat,nf_nat_masquerade_ipv4
+nf_conntrack          137239  9 openvswitch,nf_nat,nf_nat_ipv4,nf_nat_ipv6,xt_conntrack,nf_nat_masquerade_ipv4,nf_conntrack_netlink,nf_conntrack_ipv4,nf_conntrack_ipv6
+
+
+2) 
+
+ip a | grep -i inet

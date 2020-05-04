@@ -1,0 +1,14 @@
+Push an Existing Project to GitHub:
+
+Step 1: Create a Repo in Github: for ex flask_cdp_cli.git. You can choose to either initialize a README or not. It doesn't really matter because we're just going to override everything in this remote repository anyways.
+
+Step 2 : - Initialize Git in the project folder
+
+git init
+git add -A
+git commit -m 'Added my project'
+git remote add origin git@github.com:scotch-io/my-new-project.git  ( using ssh methodology )
+git remote add origin https://github.com/mjaykumar/flask_cdp_cli.git  ( using https , will ask uid and pwd )
+git remote -v
+git push origin master
+git pull origin master
